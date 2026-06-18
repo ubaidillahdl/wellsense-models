@@ -1,0 +1,2 @@
+gender,age,cycleDuration,widthW1,widthW2,w1W2Ratio,w1centerTime,relWidthW1,relWidthW2,heartRate,sysTime,diasTime,sbp,dbp
+0,35,0.685,0.46,0.335,1.37313432835821,0.66,0.671532846715328,0.489051094890511,87.5912408759124,0.2,0.485,125,82

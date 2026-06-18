@@ -1,0 +1,9 @@
+This dataset could be used to predict the hemoglobin (HGB) based on four-wavelength PPG signals.
+
+The dataset consists of 152 subjects, each with signal length in the range of 30 seconds to one minute, and 200 Hz sampling frequency.
+
+The wavelength information of signals in the dataset is listed as follows：
+channel 1: 660 nm
+channel 2: 730 nm
+channel 3: 850 nm
+channel 4: 940 nm
