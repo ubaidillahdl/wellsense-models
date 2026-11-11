@@ -28,6 +28,8 @@ all_R     = zeros(nRepeats, 1);
 all_RMSE  = zeros(nRepeats, 1);
 all_MAE   = zeros(nRepeats, 1);
 all_MAPE  = zeros(nRepeats, 1);
+all_meanDiff = zeros(nRepeats, 1);
+all_sdDiff = zeros(nRepeats, 1);
 
 % Prealokasi untuk plot regresi (maksimal nRepeats * nSamples)
 maxPredictions = nRepeats * nSamples;
@@ -41,6 +43,7 @@ for rep = 1:nRepeats
     cv = cvpartition(nSamples, 'KFold', k);
     
     R_folds = zeros(k,1); RMSE_folds = zeros(k,1); MAE_folds = zeros(k,1); MAPE_folds = zeros(k,1);
+    meanDiff_folds = zeros(k,1); sdDiff_folds = zeros(k,1);
     
     for fold = 1:k
         trainIdx = cv.training(fold);
@@ -87,11 +90,15 @@ for rep = 1:nRepeats
         predictionIdx = predictionIdx + nTest;
         
         % Metrik
+        error = pred - Y_test;
         RMSE_folds(fold) = sqrt(mean((pred - Y_test).^2));
         MAE_folds(fold)  = mean(abs(pred - Y_test));
         MAPE_folds(fold) = mean(abs((Y_test - pred) ./ Y_test)) * 100;
         R_temp = corrcoef(pred, Y_test);
         R_folds(fold) = R_temp(1,2);
+        
+        meanDiff_folds(fold) = mean(error);  
+        sdDiff_folds(fold) = std(error);  
     end
     
     mean_R = mean(R_folds);
@@ -104,6 +111,9 @@ for rep = 1:nRepeats
     all_RMSE(rep)  = mean_RMSE;
     all_MAE(rep)   = mean_MAE;
     all_MAPE(rep)  = mean_MAPE;
+    
+    all_meanDiff(rep) = mean(meanDiff_folds); 
+    all_sdDiff(rep) = mean(sdDiff_folds); 
     
     fprintf('Repeat %d:\tR=%.4f\n', rep, mean_R);
 end
@@ -121,14 +131,18 @@ fprintf('\n---------------------------------------\n');
 fprintf('HEMOGLOBIN (HB):\n');
 fprintf('\t\t\t\tANN \t\t\tBASELINE\n');
 fprintf('\t------------------------------------\n');
-fprintf('\tR     : %.4f±%.4f\t| %25s\n', mean(all_R), std(all_R), '-');
-fprintf('\tRMSE  : %.2f±%.4f\t| %.2f g/L | %.1f%%\n', mean(all_RMSE), std(all_RMSE), baseline_rmse, (1 - mean(all_RMSE)/baseline_rmse)*100);
-fprintf('\tMAE   : %.2f±%.4f\t\t| %.2f g/L | %.1f%%\n', mean(all_MAE), std(all_MAE), baseline_mae, (1 - mean(all_MAE)/baseline_mae)*100);
-fprintf('\tMAPE  : %.2f±%.4f\t\t| \n', mean(all_MAPE), std(all_MAPE));
+fprintf('\tR\t\t\t: %.4f±%.4f\t| %25s\n', mean(all_R), std(all_R), '-');
+fprintf('\tRMSE\t\t: %.2f±%.4f\t| %.2f mmHg | %.1f%%\n', mean(all_RMSE), std(all_RMSE), baseline_rmse, (1 - mean(all_RMSE)/baseline_rmse)*100);
+fprintf('\tMAE\t\t\t: %.2f±%.4f\t| %.2f mmHg | %.1f%%\n', mean(all_MAE), std(all_MAE), baseline_mae, (1 - mean(all_MAE)/baseline_mae)*100);
+fprintf('\tMAPE\t\t: %.2f±%.4f\t| \n', mean(all_MAPE), std(all_MAPE));
+
+fprintf('\tMean Diff\t: %.2f±%.4f\t| \n', mean(all_meanDiff), std(all_meanDiff));
+fprintf('\tSD Diff\t\t: %.2f±%.4f\t| \n', mean(all_sdDiff), std(all_sdDiff));
 
 %% ========== 7. PLOT REGRESI HB (REPEATED CV) ==========
 figure();
-h1 = scatter(all_actual, all_pred);
+% h1 = scatter(all_actual, all_pred);
+h1 = scatter(all_actual, all_pred, 'filled', 'MarkerFaceAlpha', 0.6);
 hold on;
 
 % Garis fit linear
@@ -151,8 +165,8 @@ xlabel('Target HB (g/L)', 'FontWeight', 'bold');
 ylabel(sprintf('Output~=%.3f*Target+%.3f', coef_hb(1), coef_hb(2)), 'FontWeight', 'bold');
 
 % Batas sumbu
-xlim([min(all_actual), max(all_actual)]);
-ylim([min(all_pred), max(all_pred)]);
+% xlim([min(all_actual), max(all_actual)]);
+% ylim([min(all_pred), max(all_pred)]);
 hold off;
 
 %% ========== 8. TAMPILKAN R DARI PLOT ==========
