@@ -1,0 +1,36 @@
+1. A01_SignalQualitySelection.m
+	Disini memilih manual sinyal yang bagus dan yang kurang bagus dengan menekan tombol poor atau good
+	pada folder dataset utama:
+		bp: \datasets\ppg_bp\signal
+		hb: \datasets\ppg_hb\signal
+	sinyal yang bagus dipindah ke folder:
+		bp: \datasets\signal_classify\ppg_bp\good
+		hb: \datasets\signal_classify\ppg_hb\good
+	sinyal yang kurang bagus dipindah ke folder:
+		bp: \datasets\signal_classify\ppg_bp\poor
+		hb: \datasets\signal_classify\ppg_hb\poor
+
+2. A01option_FlippingSignal
+	Pada tahap A01_SignalQualitySelection sinyal bagus dan kurang bagus dipindahkan ke masing-masing folder kecuali 
+	sinyal bagus yang orientasinya terbalik, jadi folder dataset utama tersisa sinyal yang terbalik.
+	Tahap A01option_FlippingSignal membalik sinyal yang terbalik pada folder utama tersebut.
+	Ketika sudah dibalik, baru jalankan A01_SignalQualitySelection untuk memindahkan ke folder good atau bisa 
+	dipindahkan secara manual saja.
+	
+3. Folder good sudah berisi sinyal-sinyal bagus yang terpilih. selanjutnya adalah menyimpan sinyal tersebut bersamaan
+   dengan data fisiologis lainnya, seperti pengukuran alat referensi, jenis kelamin, usia dan lainnya.
+   caranya adalah dengan menjalankan A01_SignalQualitySelection.m dan menekan tombol save. hasilnya adalah data tersimpan
+   berupa sinyal, usia, gender, 1 siklus ppg terbaik, nilai alat referensi dalam format file .mat yang disimpan pada
+   folder: \datasets\processed_data\ppg_bp dan datasets\processed_data\ppg_hb
+
+
+4. A02_FeatureExtraction.m 
+	Disni merupakan tahap ekstraksi fitur pada sinyal-sinyal yang sudah dipilih dan diproses pada folder
+	\datasets\processed_data\ppg_bp dan datasets\processed_data\ppg_hb dengan menekan tombol save pada window.
+	Hasilnya berupa fitur-fitur yang berhasil di ekstrak beserta dengan data fisiologis dan referensi per subjek 
+	dalam bentuk file .csv pada folder: \features\ppg_bp dan \features\ppg_hb
+
+5. A03_CombineFeatures.m
+	ini adalah tahap menggabungkan semua fitur, info fisiologis, nilai referensi pada file .csv persubjek menjadi
+	satu file .csv yang berisi banyak subjek. dengan nama file akhir: ppg_bp_features.csv dan ppg_hb_features.csv 
+	pada folder features.

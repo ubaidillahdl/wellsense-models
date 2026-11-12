@@ -80,11 +80,11 @@ modelSBP.activation_hidden = "tansig";
 modelSBP.activation_output = "purelin";
 
 % Simpan JSON
-jsonSBP = jsonencode(modelSBP);
-fidSBP = fopen(fullfile(modelFolder, 'model_sbp.json'), 'w');
-fprintf(fidSBP, '%s', jsonSBP);
-fclose(fidSBP);
-fprintf('? model_sbp.json (SBP, %d fitur)\n', length(featureNamesSBP));
+% jsonSBP = jsonencode(modelSBP);
+% fidSBP = fopen(fullfile(modelFolder, 'model_sbp.json'), 'w');
+% fprintf(fidSBP, '%s', jsonSBP);
+% fclose(fidSBP);
+% fprintf('? model_sbp.json (SBP, %d fitur)\n', length(featureNamesSBP));
 
 %% ============================================================
 % 3. EKSPOR MODEL DBP
@@ -153,11 +153,11 @@ modelDBP.activation_hidden = "tansig";
 modelDBP.activation_output = "purelin";
 
 % Simpan JSON
-jsonDBP = jsonencode(modelDBP);
-fidDBP = fopen(fullfile(modelFolder, 'model_dbp.json'), 'w');
-fprintf(fidDBP, '%s', jsonDBP);
-fclose(fidDBP);
-fprintf('? model_dbp.json (DBP, %d fitur)\n', length(featureNamesDBP));
+% jsonDBP = jsonencode(modelDBP);
+% fidDBP = fopen(fullfile(modelFolder, 'model_dbp.json'), 'w');
+% fprintf(fidDBP, '%s', jsonDBP);
+% fclose(fidDBP);
+% fprintf('? model_dbp.json (DBP, %d fitur)\n', length(featureNamesDBP));
 
 %% ============================================================
 % 4. EKSPOR MODEL HB
@@ -226,11 +226,11 @@ modelHB.activation_hidden = "tansig";
 modelHB.activation_output = "purelin";
 
 % Simpan JSON
-jsonHB = jsonencode(modelHB);
-fidHB = fopen(fullfile(modelFolder, 'model_hb.json'), 'w');
-fprintf(fidHB, '%s', jsonHB);
-fclose(fidHB);
-fprintf('? model_hb.json (HB, %d fitur)\n', length(featureNamesHB));
+% jsonHB = jsonencode(modelHB);
+% fidHB = fopen(fullfile(modelFolder, 'model_hb.json'), 'w');
+% fprintf(fidHB, '%s', jsonHB);
+% fclose(fidHB);
+% fprintf('? model_hb.json (HB, %d fitur)\n', length(featureNamesHB));
 
 %% ============================================================
 % 5. VERIFIKASI
